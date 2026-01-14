@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Gaming Store</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 Admin Dashboard</h1>
+      <div id="userInfo" style="display: none;"></div>
+    </div>
+
+    <div class="tabs">
+      <a href="dashboard.html" class="tab active">📊 Dashboard</a>
+      <a href="products.html" class="tab">🎮 Products</a>
+      <a href="orders.html" class="tab">📦 Orders</a>
+      <a href="customers.html" class="tab">👥 Customers</a>
+      <a href="suppliers.html" class="tab">🏭 Suppliers</a>
+      <a href="employees.html" class="tab" id="employeesTab">👔 Employees</a>
+    </div>
+
+    <div class="content">
+      <h2>Overview Statistics</h2>
+      <div class="stats" id="stats"></div>
+
+      <h2 style="margin-top: 40px;">Quick Actions</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+        <a href="products.html" style="text-decoration: none;">
+          <button>🎮 Manage Products</button>
+        </a>
+        <a href="orders.html" style="text-decoration: none;">
+          <button>📦 View Orders</button>
+        </a>
+        <a href="customers.html" style="text-decoration: none;">
+          <button>👥 Manage Customers</button>
+        </a>
+        <a href="suppliers.html" style="text-decoration: none;">
+          <button>🏭 Manage Suppliers</button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/crud.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    // Check authentication
+    const user = auth.getUser();
+    if (!user) {
+      window.location.href = 'login.html';
+    } else if (user.role !== 'admin' && user.role !== 'owner') {
+      alert('Access denied. Admin role required.');
+      window.location.href = 'products.html';
+    } else {
+      // Show user info
+      ui.updateUserInfo();
+      
+      // Hide employees tab if not admin
+      if (!auth.isAdmin()) {
+        $('employeesTab').style.display = 'none';
+      }
+      
+      // Render dashboard
+      dashboard.render();
+    }
+  </script>
+</body>
+</html>

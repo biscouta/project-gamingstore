@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaming Store Admin</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎮 Gaming Store Admin</h1>
+      <div id="userInfo" style="display: none;"></div>
+    </div>
+
+    <div id="loginPage" style="background: white; padding: 40px;">
+      <div class="login-form">
+        <h2 style="text-align: center; margin-bottom: 30px;">🔐 Login</h2>
+        <div id="loginAlert"></div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="loginEmail" placeholder="admin@test.com" value="admin@test.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter password" value="test123">
+        </div>
+        <button id="loginBtn">Login</button>
+        <div style="margin-top: 30px; padding: 20px; background: #f0f0f0; border-radius: 8px;">
+          <strong>Test Accounts:</strong><br>
+          <small>
+            • <b>admin@test.com</b> - Full access<br>
+            • <b>emp@test.com</b> - Employee (view only)<br>
+            • <b>client@test.com</b> - Client (limited)<br>
+            Password: <b>test123</b>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div id="appContent" style="display: none;">
+      <div class="tabs">
+        <button class="tab active" data-page="dashboard">📊 Dashboard</button>
+        <button class="tab" data-page="products">🎮 Products</button>
+        <button class="tab" data-page="orders">📦 Orders</button>
+        <button class="tab" data-page="customers">👥 Customers</button>
+        <button class="tab" data-page="suppliers">🏭 Suppliers</button>
+        <button class="tab" data-page="employees">👔 Employees</button>
+      </div>
+
+      <div class="content">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+          <h2>Dashboard Overview</h2>
+          <div class="stats" id="stats"></div>
+          <div id="dashboardCharts"></div>
+        </div>
+
+        <!-- Products Page -->
+        <div id="products" class="page">
+          <h2>Products Management</h2>
+          <div class="admin-only" id="productsAdmin">
+            <h3>Add New Product</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="productName" placeholder="Game name">
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <input type="text" id="productCategory" placeholder="Action, RPG, etc.">
+              </div>
+              <div class="form-group">
+                <label>Platform</label>
+                <select id="productPlatform">
+                  <option>PS5</option>
+                  <option>Xbox</option>
+                  <option>PC</option>
+                  <option>Switch</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Price (MAD)</label>
+                <input type="number" id="productPrice" placeholder="499">
+              </div>
+              <div class="form-group">
+                <label>Stock</label>
+                <input type="number" id="productStock" placeholder="50">
+              </div>
+              <div class="form-group">
+                <label>Rating (0-5)</label>
+                <input type="number" id="productRating" step="0.1" min="0" max="5" placeholder="4.5">
+              </div>
+            </div>
+            <button id="addProductBtn">Add Product</button>
+            <button class="danger" id="clearProductsBtn">Clear All Products</button>
+          </div>
+          <div id="productsTable"></div>
+        </div>
+
+        <!-- Orders Page -->
+        <div id="orders" class="page">
+          <h2>Orders Management</h2>
+          <div class="admin-only" id="ordersAdmin">
+            <h3>Add New Order</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Customer</label>
+                <input type="text" id="orderCustomer" placeholder="Customer name">
+              </div>
+              <div class="form-group">
+                <label>Status</label>
+                <select id="orderStatus">
+                  <option>pending</option>
+                  <option>paid</option>
+                  <option>shipped</option>
+                  <option>cancelled</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Amount (MAD)</label>
+                <input type="number" id="orderAmount" placeholder="999">
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="orderDate">
+              </div>
+            </div>
+            <button id="addOrderBtn">Add Order</button>
+            <button class="danger" id="clearOrdersBtn">Clear All Orders</button>
+          </div>
+          <div id="ordersTable"></div>
+        </div>
+
+        <!-- Customers Page -->
+        <div id="customers" class="page">
+          <h2>Customers Management</h2>
+          <div class="admin-only" id="customersAdmin">
+            <h3>Add New Customer</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="customerName" placeholder="John Doe">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="customerEmail" placeholder="john@example.com">
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="customerPhone" placeholder="+212 600 000 000">
+              </div>
+              <div class="form-group">
+                <label>City</label>
+                <input type="text" id="customerCity" placeholder="Casablanca">
+              </div>
+            </div>
+            <button id="addCustomerBtn">Add Customer</button>
+            <button class="danger" id="clearCustomersBtn">Clear All Customers</button>
+          </div>
+          <div id="customersTable"></div>
+        </div>
+
+        <!-- Suppliers Page -->
+        <div id="suppliers" class="page">
+          <h2>Suppliers Management</h2>
+          <div class="admin-only" id="suppliersAdmin">
+            <h3>Add New Supplier</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="supplierName" placeholder="Supplier name">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="supplierEmail" placeholder="supplier@example.com">
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="supplierPhone" placeholder="+212 600 000 000">
+              </div>
+            </div>
+            <button id="addSupplierBtn">Add Supplier</button>
+            <button class="danger" id="clearSuppliersBtn">Clear All Suppliers</button>
+          </div>
+          <div id="suppliersTable"></div>
+        </div>
+
+        <!-- Employees Page -->
+        <div id="employees" class="page">
+          <h2>Employees Management</h2>
+          <div class="admin-only" id="employeesAdmin">
+            <h3>Add New Employee</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="employeeName" placeholder="Jane Smith">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="employeeEmail" placeholder="jane@company.com">
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="employeePhone" placeholder="+212 600 000 000">
+              </div>
+              <div class="form-group">
+                <label>Role</label>
+                <select id="employeeRole">
+                  <option>admin</option>
+                  <option>employee</option>
+                  <option>owner</option>
+                </select>
+              </div>
+            </div>
+            <button id="addEmployeeBtn">Add Employee</button>
+            <button class="danger" id="clearEmployeesBtn">Clear All Employees</button>
+          </div>
+          <div id="employeesTable"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/crud.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/customers.js"></script>
+  <script src="js/suppliers.js"></script>
+  <script src="js/employees.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
