@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Gaming Store</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔐 Gaming Store Login</h1>
+      <p style="opacity: 0.9;">Sign in to access the admin panel</p>
+    </div>
+
+    <div style="background: white; padding: 40px;">
+      <div class="login-form">
+        <div id="loginAlert"></div>
+        
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="loginEmail" placeholder="admin@test.com" value="admin@test.com">
+        </div>
+        
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter password" value="test123">
+        </div>
+        
+        <button id="loginBtn">Login</button>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f0f0f0; border-radius: 8px;">
+          <strong>🧪 Test Accounts:</strong><br><br>
+          <div style="display: grid; gap: 10px;">
+            <div>
+              <strong>Admin:</strong> admin@test.com<br>
+              <small style="color: #666;">Full access to all features</small>
+            </div>
+            <div>
+              <strong>Employee:</strong> emp@test.com<br>
+              <small style="color: #666;">View-only access</small>
+            </div>
+            <div>
+              <strong>Client:</strong> client@test.com<br>
+              <small style="color: #666;">Limited access</small>
+            </div>
+          </div>
+          <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+            <strong>Password for all:</strong> test123
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="dashboard.html" style="color: #667eea; text-decoration: none;">
+            Already logged in? Go to Dashboard →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Check if already logged in
+    const user = auth.getUser();
+    if (user) {
+      // Redirect to dashboard if already logged in
+      window.location.href = 'dashboard.html';
+    }
+
+    // Login handler
+    $('loginBtn').onclick = () => {
+      try {
+        const email = $('loginEmail').value.trim();
+        const password = $('loginPassword').value.trim();
+        
+        auth.login(email, password);
+        
+        // Redirect based on role
+        const session = auth.getUser();
+        if (session.role === 'admin' || session.role === 'owner') {
+          window.location.href = 'dashboard.html';
+        } else {
+          window.location.href = 'products.html';
+        }
+      } catch (e) {
+        $('loginAlert').innerHTML = `<div class="alert alert-error">❌ ${e.message}</div>`;
+      }
+    };
+
+    // Allow Enter key to submit
+    $('loginPassword').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        $('loginBtn').click();
+      }
+    });
+  </script>
+</body>
+</html>
