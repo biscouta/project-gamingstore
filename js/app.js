@@ -84,12 +84,37 @@ function init() {
   if ($('clearProductsBtn')) {
     $('clearProductsBtn').onclick = () => products.clearAll();
   }
+
+  if ($('saveProductBtn')) {
+    $('saveProductBtn').onclick = () => products.saveEdit();
+  }
+  if ($('cancelProductEditBtn')) {
+    $('cancelProductEditBtn').onclick = () => products.cancelEdit();
+  }
   
     if ($('productImage')) {
     $('productImage').addEventListener('change', function(e) {
       const file = e.target.files[0];
       const preview = $('imagePreview');
  
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.innerHTML = '';
+      }
+    });
+  }
+
+  if ($('editProductImage')) {
+    $('editProductImage').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = $('editImagePreview');
+      if (!preview) return;
+
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -109,6 +134,12 @@ function init() {
   if ($('clearOrdersBtn')) {
     $('clearOrdersBtn').onclick = () => orders.clearAll();
   }
+  if ($('saveOrderBtn')) {
+    $('saveOrderBtn').onclick = () => orders.saveEdit();
+  }
+  if ($('cancelOrderEditBtn')) {
+    $('cancelOrderEditBtn').onclick = () => orders.cancelEdit();
+  }
   
   // Customers events
   if ($('addCustomerBtn')) {
@@ -116,6 +147,12 @@ function init() {
   }
   if ($('clearCustomersBtn')) {
     $('clearCustomersBtn').onclick = () => customers.clearAll();
+  }
+  if ($('saveCustomerBtn')) {
+    $('saveCustomerBtn').onclick = () => customers.saveEdit();
+  }
+  if ($('cancelCustomerEditBtn')) {
+    $('cancelCustomerEditBtn').onclick = () => customers.cancelEdit();
   }
   
   // Suppliers events
@@ -125,6 +162,12 @@ function init() {
   if ($('clearSuppliersBtn')) {
     $('clearSuppliersBtn').onclick = () => suppliers.clearAll();
   }
+  if ($('saveSupplierBtn')) {
+    $('saveSupplierBtn').onclick = () => suppliers.saveEdit();
+  }
+  if ($('cancelSupplierEditBtn')) {
+    $('cancelSupplierEditBtn').onclick = () => suppliers.cancelEdit();
+  }
   
   // Employees events
   if ($('addEmployeeBtn')) {
@@ -132,6 +175,12 @@ function init() {
   }
   if ($('clearEmployeesBtn')) {
     $('clearEmployeesBtn').onclick = () => employees.clearAll();
+  }
+  if ($('saveEmployeeBtn')) {
+    $('saveEmployeeBtn').onclick = () => employees.saveEdit();
+  }
+  if ($('cancelEmployeeEditBtn')) {
+    $('cancelEmployeeEditBtn').onclick = () => employees.cancelEdit();
   }
 }
 

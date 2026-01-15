@@ -1,11 +1,13 @@
 // Employees Module
 
 const employees = {
+  editId: null,
   render() {
     if (!auth.isAdmin()) return;
     
     const data = crud.getAll('employees');
     ui.renderTable('employeesTable', data, ['ID', 'Name', 'Email', 'Phone', 'Role'], [
+      { label: 'Edit', class: 'secondary', onclick: 'employees.startEdit' },
       { label: 'Delete', class: 'danger', onclick: 'employees.delete' }
     ]);
   },
@@ -46,6 +48,58 @@ const employees = {
     $('employeeEmail').value = '';
     $('employeePhone').value = '';
   },
+
+  startEdit(id) {
+    if (!auth.isAdmin()) {
+      return ui.showAlert(' Admin only', 'error');
+    }
+    window.location.href = `edit.html?type=employees&id=${encodeURIComponent(id)}`;
+  },
+
+  saveEdit() {
+    if (!auth.isAdmin()) {
+      return ui.showAlert(' Admin only', 'error');
+    }
+    if (!this.editId) return;
+
+    const name = $('editEmployeeName').value.trim();
+    const email = $('editEmployeeEmail').value.trim();
+    const phone = $('editEmployeePhone').value.trim();
+    const role = $('editEmployeeRole').value;
+
+    if (!name || !email || !role) {
+      return ui.showAlert(' Name, email, and role are required', 'error');
+    }
+
+    if (!email.includes('@')) {
+      return ui.showAlert(' Invalid email address', 'error');
+    }
+
+    const updated = crud.update('employees', this.editId, {
+      name,
+      email,
+      phone,
+      role
+    });
+
+    if (!updated) {
+      return ui.showAlert(' Employee not found', 'error');
+    }
+
+    this.render();
+    dashboard.render();
+    ui.showAlert(' Employee updated');
+    this.cancelEdit();
+  },
+
+  cancelEdit() {
+    this.editId = null;
+    $('editEmployeeName').value = '';
+    $('editEmployeeEmail').value = '';
+    $('editEmployeePhone').value = '';
+    const section = $('employeeEditSection');
+    if (section) section.style.display = 'none';
+  },
   
   delete(id) {
     if (!auth.isAdmin()) {
@@ -73,3 +127,5 @@ const employees = {
     ui.showAlert(' All employees cleared');
   }
 };
+
+window.employees = employees;

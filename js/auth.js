@@ -1,4 +1,4 @@
-// Authentication System
+
 
 const auth = {
   login(email, password) {
@@ -33,14 +33,14 @@ const auth = {
   
   isAdmin() {
     const user = this.getUser();
-    return user && (user.role === 'admin' || user.role === 'owner');
+    return user && (user.role === 'admin' );
   },
   
   getRole(email) {
     const lower = email.toLowerCase();
-    if (lower.includes('owner')) return 'owner';
+    
     if (lower.includes('admin')) return 'admin';
-    if (lower.includes('emp')) return 'employee';
-    return 'client';
+    
+   
   }
 };

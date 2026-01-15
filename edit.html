@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Item - Gaming Store</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Edit Item</h1>
+      <div id="userInfo" style="display: none;"></div>
+    </div>
+
+    <div class="tabs">
+      <a href="dashboard.html" class="tab">dY"S Dashboard</a>
+      <a href="products.html" class="tab">dYZr Products</a>
+      <a href="orders.html" class="tab">dY"Ý Orders</a>
+      <a href="customers.html" class="tab">dY`ť Customers</a>
+      <a href="suppliers.html" class="tab">dY?- Suppliers</a>
+      <a href="employees.html" class="tab" id="employeesTab">dY`" Employees</a>
+    </div>
+
+    <div class="content">
+      <div class="admin-only">
+        <h3 id="editTitle">Edit</h3>
+        <div class="form-row" id="editForm"></div>
+        <div class="form-actions">
+          <button id="saveEditBtn">Save</button>
+          <button class="secondary" id="returnEditBtn">Return</button>
+        </div>
+        <div id="editPageAlert" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/crud.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/edit.js"></script>
+</body>
+</html>

@@ -50,6 +50,35 @@
         </div>
         <button id="addOrderBtn">Add Order</button>
         <button class="danger" id="clearOrdersBtn">Clear All Orders</button>
+
+        <div id="orderEditSection" style="display: none; margin-top: 30px;">
+          <h3>Edit Order</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Customer</label>
+              <input type="text" id="editOrderCustomer" placeholder="Customer name">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="editOrderStatus">
+                <option>pending</option>
+                <option>paid</option>
+                <option>shipped</option>
+                <option>cancelled</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Amount (MAD)</label>
+              <input type="number" id="editOrderAmount" placeholder="999" min="0">
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="editOrderDate">
+            </div>
+          </div>
+          <button id="saveOrderBtn">Save Changes</button>
+          <button class="secondary" id="cancelOrderEditBtn">Cancel</button>
+        </div>
       </div>
 
       <h3 style="margin-top: 30px;">Orders List</h3>

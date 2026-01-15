@@ -1,9 +1,11 @@
 // Orders Module
 
 const orders = {
+  editId: null,
   render() {
     const data = crud.getAll('orders');
     ui.renderTable('ordersTable', data, ['ID', 'Customer', 'Status', 'Date', 'Amount'], [
+      { label: 'Edit', class: 'secondary', onclick: 'orders.startEdit' },
       { label: 'Delete', class: 'danger', onclick: 'orders.delete' }
     ]);
   },
@@ -43,6 +45,58 @@ const orders = {
     $('orderCustomer').value = '';
     $('orderAmount').value = '';
   },
+
+  startEdit(id) {
+    if (!auth.isAdmin()) {
+      return ui.showAlert(' Admin only', 'error');
+    }
+    window.location.href = `edit.html?type=orders&id=${encodeURIComponent(id)}`;
+  },
+
+  saveEdit() {
+    if (!auth.isAdmin()) {
+      return ui.showAlert(' Admin only', 'error');
+    }
+    if (!this.editId) return;
+
+    const customer = $('editOrderCustomer').value.trim();
+    const status = $('editOrderStatus').value;
+    const amount = $('editOrderAmount').value;
+    const date = $('editOrderDate').value || todayISO();
+
+    if (!customer || !amount) {
+      return ui.showAlert(' Please fill all required fields', 'error');
+    }
+
+    if (Number(amount) < 0) {
+      return ui.showAlert(' Amount must be positive', 'error');
+    }
+
+    const updated = crud.update('orders', this.editId, {
+      customer,
+      status,
+      amount: Number(amount),
+      date
+    });
+
+    if (!updated) {
+      return ui.showAlert(' Order not found', 'error');
+    }
+
+    this.render();
+    dashboard.render();
+    ui.showAlert(' Order updated');
+    this.cancelEdit();
+  },
+
+  cancelEdit() {
+    this.editId = null;
+    $('editOrderCustomer').value = '';
+    $('editOrderAmount').value = '';
+    $('editOrderDate').value = todayISO();
+    const section = $('orderEditSection');
+    if (section) section.style.display = 'none';
+  },
   
   delete(id) {
     if (!auth.isAdmin()) {
@@ -70,3 +124,5 @@ const orders = {
     ui.showAlert(' All orders cleared');
   }
 };
+
+window.orders = orders;

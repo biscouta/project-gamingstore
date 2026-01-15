@@ -45,6 +45,30 @@
         </div>
         <button id="addCustomerBtn">Add Customer</button>
         <button class="danger" id="clearCustomersBtn">Clear All Customers</button>
+
+        <div id="customerEditSection" style="display: none; margin-top: 30px;">
+          <h3>Edit Customer</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="editCustomerName" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="editCustomerEmail" placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="editCustomerPhone" placeholder="+212 600 000 000">
+            </div>
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="editCustomerCity" placeholder="Casablanca">
+            </div>
+          </div>
+          <button id="saveCustomerBtn">Save Changes</button>
+          <button class="secondary" id="cancelCustomerEditBtn">Cancel</button>
+        </div>
       </div>
 
       <h3 style="margin-top: 30px;">Customers List</h3>

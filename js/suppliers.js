@@ -1,9 +1,11 @@
 // Suppliers Module
 
 const suppliers = {
+  editId: null,
   render() {
     const data = crud.getAll('suppliers');
     ui.renderTable('suppliersTable', data, ['ID', 'Name', 'Email', 'Phone'], [
+      { label: 'Edit', class: 'secondary', onclick: 'suppliers.startEdit' },
       { label: 'Delete', class: 'danger', onclick: 'suppliers.delete' }
     ]);
   },
@@ -38,6 +40,52 @@ const suppliers = {
     $('supplierEmail').value = '';
     $('supplierPhone').value = '';
   },
+
+  startEdit(id) {
+    if (!auth.isAdmin()) {
+      return ui.showAlert(' Admin only', 'error');
+    }
+    window.location.href = `edit.html?type=suppliers&id=${encodeURIComponent(id)}`;
+  },
+
+  saveEdit() {
+    if (!auth.isAdmin()) {
+      return ui.showAlert(' Admin only', 'error');
+    }
+    if (!this.editId) return;
+
+    const name = $('editSupplierName').value.trim();
+    const email = $('editSupplierEmail').value.trim();
+    const phone = $('editSupplierPhone').value.trim();
+
+    if (!name) {
+      return ui.showAlert(' Supplier name is required', 'error');
+    }
+
+    const updated = crud.update('suppliers', this.editId, {
+      name,
+      email,
+      phone
+    });
+
+    if (!updated) {
+      return ui.showAlert(' Supplier not found', 'error');
+    }
+
+    this.render();
+    dashboard.render();
+    ui.showAlert(' Supplier updated');
+    this.cancelEdit();
+  },
+
+  cancelEdit() {
+    this.editId = null;
+    $('editSupplierName').value = '';
+    $('editSupplierEmail').value = '';
+    $('editSupplierPhone').value = '';
+    const section = $('supplierEditSection');
+    if (section) section.style.display = 'none';
+  },
   
   delete(id) {
     if (!auth.isAdmin()) {
@@ -65,3 +113,5 @@ const suppliers = {
     ui.showAlert(' All suppliers cleared');
   }
 };
+
+window.suppliers = suppliers;

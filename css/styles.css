@@ -223,6 +223,17 @@ button.secondary {
   gap: 15px;
 }
 
+.form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.form-actions button {
+  width: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

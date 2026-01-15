@@ -18,6 +18,21 @@ const crud = {
     storage.set(resource, filtered);
     return true;
   },
+
+  update(resource, id, updates) {
+    const items = this.getAll(resource);
+    const index = items.findIndex(item => item.id === id);
+    if (index === -1) {
+      return null;
+    }
+    items[index] = {
+      ...items[index],
+      ...updates,
+      updatedAt: todayISO()
+    };
+    storage.set(resource, items);
+    return items[index];
+  },
   
   clear(resource) {
     storage.clear(resource);
